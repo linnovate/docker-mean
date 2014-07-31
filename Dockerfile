@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:14.04
  
 RUN echo 'deb http://il.archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
     echo 'deb http://il.archive.ubuntu.com/ubuntu precise-updates main universe' >> /etc/apt/sources.list && \
