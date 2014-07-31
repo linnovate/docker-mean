@@ -1,4 +1,0 @@
-#!/bin/sh
-
-docker run -p 8000:80 --rm -i -t mean /bin/bash
-
