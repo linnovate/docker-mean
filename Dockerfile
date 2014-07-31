@@ -1,19 +1,24 @@
 FROM ubuntu
  
-RUN echo 'deb http://archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
-    echo 'deb http://archive.ubuntu.com/ubuntu precise-updates main universe' >> /etc/apt/sources.list && \
+RUN echo 'deb http://il.archive.ubuntu.com/ubuntu precise main universe' > /etc/apt/sources.list && \
+    echo 'deb http://il.archive.ubuntu.com/ubuntu precise-updates main universe' >> /etc/apt/sources.list && \
     apt-get update
 
-#Runit
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y runit 
-CMD /usr/sbin/runsvdir-start
+RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
-#SSHD
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y openssh-server &&	mkdir -p /var/run/sshd && \
-    echo 'root:root' |chpasswd
+#Runit
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install -y runit 
+#CMD /usr/sbin/runsvdir-start
+
+
+RUN apt-get install -y openssh-server
+RUN mkdir /var/run/sshd
+RUN echo 'root:mean22' | chpasswd
+
+#EXPOSE 22
 
 #Utilities
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y vim less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo
 
 #Node
 RUN curl http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-x64.tar.gz | tar xz
@@ -21,8 +26,6 @@ RUN mv node* node && \
     ln -s /node/bin/node /usr/local/bin/node && \
     ln -s /node/bin/npm /usr/local/bin/npm
 
-#Express
-RUN npm install express -g
 
 #MongoDB
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
@@ -30,26 +33,35 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && \
     apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y mongodb-org
 RUN mkdir -p /data/db
+RUN chown -R mongodb:mongodb /data
 
-#MEAN
-RUN git clone https://github.com/linnovate/mean.git
-RUN cd mean && \
-    npm install
+# Create a mean user
+RUN mkdir -p /home/mean
+RUN useradd mean -d /home/mean -s /bin/bash 
+RUN cd /home/mean
+RUN chown mean:mean /home/mean
+RUN echo "user creation completed"
 
-RUN npm install -g grunt-cli
-RUN echo 'eval "$(grunt --completion=bash)"' >> ~/.bashrc
-RUN npm install -g bower
-
-RUN cd /mean && \
-    bower --allow-root install && \
-    npm install
+#Install mean cli
+# Init the application,install dependencies and run grunt
+RUN sudo -H -u mean git clone https://github.com/linnovate/mean /home/mean/mean
+RUN cd /home/mean/mean ; sudo -u mean git checkout v0.4.0
+RUN npm install -g npm-install-retry
+RUN npm-install-retry --wait 500 --attempts 10 -- -g\ bower
+RUN npm-install-retry --wait 500 --attempts 10 -- -g\ grunt
+RUN cd /home/mean/mean ; sudo -H -u mean npm-install-retry --wait 5000 --attempts 10
+RUN cd /home/mean/mean ; sudo -H -u mean node_modules/bower/bin/bower install
+#RUN cd /home/mean/mean ; sudo -H -u mean node_modules/grunt-cli/bin/grunt cssmin uglify
+#RUN cd /home/mean/mean ; sudo -H -u grunt cssmin uglify
 
 #Configuration
 ADD . /docker
 
 #Runit Automatically setup all services in the sv directory
-RUN for dir in /docker/sv/*; do echo $dir; chmod +x $dir/run $dir/log/run; ln -s $dir /etc/service/; done
+#RUN for dir in /docker/sv/*; do echo $dir; chmod +x $dir/run $dir/log/run; ln -s $dir /etc/service/; done
 
-ENV HOME /root
-WORKDIR /root
+#ENV HOME /root
+#WORKDIR /root
+
+ENTRYPOINT    ["/docker/run.sh"]
 EXPOSE 22 7946 3000
