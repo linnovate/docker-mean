@@ -7,6 +7,7 @@ building
 ========
 
 cd docker-mean
+
 docker build -t yourusername/docker-mean .
 
 
