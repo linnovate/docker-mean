@@ -56,6 +56,7 @@ RUN cd /home/mean/mean ; sudo -H -u mean node_modules/bower/bin/bower install
 
 #Configuration
 ADD . /docker
+RUN chmod +x /docker/run.sh
 
 #Runit Automatically setup all services in the sv directory
 #RUN for dir in /docker/sv/*; do echo $dir; chmod +x $dir/run $dir/log/run; ln -s $dir /etc/service/; done
