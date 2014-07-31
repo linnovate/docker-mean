@@ -50,8 +50,8 @@ RUN npm install -g npm-install-retry
 RUN npm-install-retry --wait 500 --attempts 10 -- -g\ bower
 RUN npm-install-retry --wait 500 --attempts 10 -- -g\ grunt
 RUN cd /home/mean/mean ; sudo -H -u mean npm-install-retry --wait 5000 --attempts 10
-RUN cd /home/mean/mean ; sudo -H -u mean node_modules/bower/bin/bower install
-#RUN cd /home/mean/mean ; sudo -H -u mean node_modules/grunt-cli/bin/grunt cssmin uglify
+RUN cd /home/mean/mean ; sudo -H -u mean node_modules/bower/bin/bower install -q
+RUN cd /home/mean/mean ; sudo -H -u mean node_modules/grunt-cli/bin/grunt cssmin uglify
 #RUN cd /home/mean/mean ; sudo -H -u grunt cssmin uglify
 
 #Configuration
@@ -64,5 +64,5 @@ RUN chmod +x /docker/run.sh
 #ENV HOME /root
 #WORKDIR /root
 
-ENTRYPOINT    ["/docker/run.sh"]
-EXPOSE 22 7946 3000
+CMD    ["/bin/bash","/docker/run.sh"]
+EXPOSE 22 3000
