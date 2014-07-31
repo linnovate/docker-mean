@@ -15,10 +15,6 @@ RUN apt-get install -y openssh-server
 RUN mkdir /var/run/sshd
 RUN echo 'root:mean22' | chpasswd
 
-RUN apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN echo 'root:mean22' | chpasswd
-
 #Utilities
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y less net-tools inetutils-ping curl git telnet nmap socat dnsutils netcat tree htop unzip sudo
 
