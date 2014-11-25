@@ -63,4 +63,6 @@ docker -d &
 sleep 5
 
 # Use docker
-./run.sh
+
+#docker run brownman/docker-mean /bin/echo hello world
+sudo docker build .
