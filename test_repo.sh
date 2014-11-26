@@ -1,5 +1,5 @@
 #!/bin/bash
 source config.cfg
 
-cd REPO/$machine_name
+cd REPO/$repo_name
 ./run.sh
