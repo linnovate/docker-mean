@@ -3,9 +3,9 @@ cache:
   - apt
   - npm
 
-global:
-  env:
-    machine_name: meanjs
+#global:
+#  env:
+#    machine_name: meanjs
     
 matrix:
   fast_finish: true
