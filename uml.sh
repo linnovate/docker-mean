@@ -65,4 +65,4 @@ sleep 5
 # Use docker
 
 #docker run brownman/docker-mean /bin/echo hello world
-./test.sh
+$cmd_start
