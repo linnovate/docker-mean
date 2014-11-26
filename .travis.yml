@@ -5,7 +5,7 @@ cache:
 
 global:
   env:
-    machine_name: nodejs
+    machine_name: meanjs
     
 matrix:
   fast_finish: true
