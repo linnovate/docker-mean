@@ -3,6 +3,10 @@ cache:
   - apt
   - npm
 
+global:
+  env:
+    machine_name: lior
+    
 matrix:
   fast_finish: true
 
