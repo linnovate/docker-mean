@@ -3,9 +3,9 @@ cache:
   - apt
   - npm
 
-#global:
-#  env:
-#    machine_name: meanjs
+global:
+  env:
+    cmd_start: ./test_repo.sh
     
 matrix:
   fast_finish: true
