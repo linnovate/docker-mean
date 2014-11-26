@@ -1,0 +1,26 @@
+language: node_js
+cache:
+  - apt
+  - npm
+
+global:
+  env:
+    cmd_start: ./test_repo.sh
+    
+matrix:
+  fast_finish: true
+
+install:
+  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+  - sudo apt-get update
+  - sudo mkdir -p /var/lib/docker
+  - echo exit 101 | sudo tee /usr/sbin/policy-rc.d
+  - sudo chmod +x /usr/sbin/policy-rc.d
+  - sudo apt-get install -y slirp lxc lxc-docker aufs-tools cgroup-lite
+  - curl -sLo linux https://github.com/jpetazzo/sekexe/raw/master/uml
+  - chmod +x linux
+  
+script:
+  - chmod u+x *.sh . -R
+  - ./linux quiet mem=2G rootfstype=hostfs rw eth0=slirp,,/usr/bin/slirp-fullbolt init=$(pwd)/uml.sh WORKDIR=$(pwd) HOME=$HOME
