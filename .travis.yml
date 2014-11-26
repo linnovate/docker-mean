@@ -5,7 +5,7 @@ cache:
 
 global:
   env:
-    machine_name: lior
+    machine_name: nodejs
     
 matrix:
   fast_finish: true
