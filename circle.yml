@@ -1,0 +1,13 @@
+machine:
+  services:
+    - docker
+    
+  environment:   
+    timeout: 600
+    container_name: linnovate/docker-mean
+ 
+    
+test:
+  override:
+    - ls -l
+    - chmod +x *.sh; ls -l; bash -c ./wrap.sh
