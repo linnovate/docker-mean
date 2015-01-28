@@ -1,23 +1,9 @@
-docker-mean
-===========
-
-Runs MEAN Stack inside Docker
-
-building
-========
-
-cd docker-mean
-
-docker build -t yourusername/docker-mean .
+ 
+[ERR?](https://registry.hub.docker.com/u/brownman/mean/builds_history/115284/)
+===
+[![Circle CI](https://circleci.com/gh/brownman/docker-images.svg?style=svg)](https://circleci.com/gh/brownman/docker-images)
 
 
-running
-=======
-
-docker run -p 1022:22 -p 80:3000 -d  yourusername/docker-mean
-
-
-remarks
-=======
-
-sshd can be removed if not needed
+TODO:
+----
+- Expose the app-folder(myApp) as a docker-volume
