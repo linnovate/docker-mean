@@ -6,7 +6,7 @@ WORKDIR /home/mean
 
 # Install Mean Prerequisites
 RUN npm install -g grunt-cli bower mean-cli
-RUN bash -c 'echo -e "myApp\n" | mean init'
+RUN bash -c 'echo -e "myApp\n\n" | mean init'
 RUN bash -c 'cd myApp && bower --allow-root install && npm install'
 RUN echo 'eval "$(grunt --completion=bash)"' >> ~/.bashrc
 
