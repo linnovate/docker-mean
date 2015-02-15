@@ -1,7 +1,7 @@
  
-[docker hub](https://registry.hub.docker.com/u/linnovate/docker-mean)
+[docker hub](https://registry.hub.docker.com/u/linnovate/docker_mean)
 
-[![Circle CI](https://circleci.com/gh/linnovate/docker-mean.svg?style=svg)](https://circleci.com/gh/linnovate/docker-mean)
+[![Circle CI](https://circleci.com/gh/linnovate/docker_mean.svg?style=svg)](https://circleci.com/gh/linnovate/docker_mean)
 
 
 TODO:
@@ -17,5 +17,5 @@ RUN:
 
 ```bash
 docker run -v /data:/data -p 27017:27017 -p 28017:28017 -d --name mongo_deamon brownman/mongo sh -c 'mongod --rest --httpinterface --smallfiles'
-docker run -p 3000:3000 -p 35729:35729  --link mongo_deamon:db -t liorkesos/docker-mean bash
+docker run -p 3000:3000 -p 35729:35729  --link mongo_deamon:db -t linnovate/docker_mean bash
 ```
